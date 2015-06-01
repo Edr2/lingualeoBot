@@ -10,7 +10,8 @@ class LinguaLeo(Bot):
     user = 'testikB321@gmail.com'
     password = '123178711'
     site = 'http://lingualeo.com/'
-    referal_link = "http://lingualeo.com/ru/r/9aej75"
+    referal_link = 'http://lingualeo.com/ru/r/9aej75'
+    jungle_link = site+'ru/jungle'
 
     def wait_element(self, by, req):
         return self.wait_driver.until(EC.presence_of_element_located((by, req)))
@@ -19,6 +20,9 @@ class LinguaLeo(Bot):
     def setUpClass(cls):
         cls.driver = webdriver.Firefox()
         cls.wait_driver = WebDriverWait(cls.driver, 10)
+
+    def run(self):
+        self.driver.get(self.jungle_link)
 
     def set_error_list(self):
         self.error_list = {u'username_already_exists':u'Пользователь с таким адресом эл. почты уже есть на сервисе'}
@@ -106,6 +110,7 @@ class LinguaLeo(Bot):
 try:
     bot = LinguaLeo()
     bot.authenticate()
+    bot.run()
     # print bot.check_user()
     # if bot.check_user() == 'registered':
     #

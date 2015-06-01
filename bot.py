@@ -3,7 +3,6 @@ class Bot():
     def setUpClass(cls):
         "Hook method for setting up class before running in the class."
 
-    @classmethod
     def set_error_list(self):
         pass
 
