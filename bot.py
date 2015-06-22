@@ -1,3 +1,5 @@
+import json
+
 class Bot():
     @classmethod
     def setUpClass(cls):
@@ -13,13 +15,13 @@ class Bot():
     def run(self):
         pass
 
+    @classmethod
+    def load_config(cls, file_name):
+        with open(file_name) as data_file:
+            data = json.load(data_file)
+
+        for key in data:
+            setattr(cls, key, data[key])
+
     def close(self):
         pass
-
-
-
-# class botLingua( driver ):
-#  pass
-#
-#
-# driver.get("http://lingualeo.com/ru/jungle?isNew=1&levelMin=1&levelMax=1&entry=search&sortBy=best&sortDir=desc&userLang=ru&defaultSort=1&contentFormat=3&byTheme=0")

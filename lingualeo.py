@@ -4,24 +4,24 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import WebDriverException
 from bot import Bot
 
 class LinguaLeo(Bot):
-    user = 'testikB32111@gmail.com'
-    password = '123178711'
-    site = 'http://lingualeo.com/'
-    referal_link = 'http://lingualeo.com/ru/r/9aej75'
-    jungle_link = site+'ru/jungle'
-    upto_level = 5
-
-    def wait_element(self, by, req):
-        return self.wait_driver.until(EC.presence_of_element_located((by, req)))
+    """Attributes from config.json:"""
+    user            = None
+    password        = None
+    referral_link   = None
+    jungle_link     = None
+    upto_level      = None
 
     @classmethod
     def setUpClass(cls):
+        cls.load_config('config.json')
         cls.driver = webdriver.Firefox()
         cls.wait_driver = WebDriverWait(cls.driver, 5)
+
+    def wait_element(self, by, req):
+        return self.wait_driver.until(EC.presence_of_element_located((by, req)))
 
     def run(self):
         self.goto_text_page()
@@ -32,11 +32,14 @@ class LinguaLeo(Bot):
 
             words = self.driver.find_elements_by_tag_name('tran')
             shuffle(words)
-            words = words[len(words)/3:]
+            words = words[int(len(words)/1.3):]
             for word in words:
                 word.click()
                 content = self.wait_element(By.XPATH, "//div[@class='transw-content']")
-                content.find_element_by_class_name('transw-link').click()
+                #todo: if not translate!
+                link = content.find_element_by_class_name('transw-link')
+                if(link):
+                    link.click()
 
             self.driver.back()
         pass
@@ -90,7 +93,7 @@ class LinguaLeo(Bot):
             return 'unauthorized'
 
     def loggin_user(self):
-        self.driver.get(self.referal_link)
+        self.driver.get(self.referral_link)
         email_input = self.wait_element(By.XPATH, "/html/body/div[5]/div[1]/div/div[2]/div[1]/form/div[1]/input")
         email_input.send_keys(self.user)
         password_input = self.driver.find_element(By.XPATH, '/html/body/div[5]/div[1]/div/div[2]/div[1]/form/div[2]/input')
