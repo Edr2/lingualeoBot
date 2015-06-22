@@ -5,15 +5,9 @@ class Bot():
     def setUpClass(cls):
         "Hook method for setting up class before running in the class."
 
-    def set_error_list(self):
-        pass
-
     def __init__(self):
         self.setUpClass()
         self.set_error_list()
-
-    def run(self):
-        pass
 
     @classmethod
     def load_config(cls, file_name):
@@ -22,6 +16,12 @@ class Bot():
 
         for key in data:
             setattr(cls, key, data[key])
+
+    def set_error_list(self):
+        pass
+
+    def run(self):
+        pass
 
     def close(self):
         pass
